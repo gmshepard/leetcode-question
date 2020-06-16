@@ -40,6 +40,11 @@ public static void main(String[] args) {
  */
 class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
+//        return stackTraversal(root);
+        return anotherStackTraversal(root);
+    }
+
+    private List<Integer> stackTraversal(TreeNode root) {
         List<Integer> result = new ArrayList<>();
         Stack<TreeNode> stack = new Stack<>();
         TreeNode current = root;
@@ -51,6 +56,27 @@ class Solution {
             current = stack.pop();
             result.add(current.val);
             current = current.right;
+        }
+        return result;
+    }
+
+    private List<Integer> anotherStackTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        Stack<Object> stack = new Stack<>();
+        stack.add(root);
+        while(!stack.empty()) {
+            Object e = stack.pop();
+            if (e == null) {
+                continue;
+            }
+
+            if(e instanceof TreeNode) {
+                stack.add(((TreeNode) e).right);
+                stack.add(((TreeNode) e).val);
+                stack.add(((TreeNode) e).left);
+            } else if (e instanceof Integer) {
+                result.add((Integer) e);
+            }
         }
         return result;
     }
